@@ -77,9 +77,36 @@ class AdminController extends Controller
             return "false";
         };
     }
-    // public function settings(){
-    //     return view('admin.settings');
-    // }
+    public function updateDetails(Request $request){
+
+        if($request->isMethod('post')){
+            $data = $request->all();
+        //    echo "<pre>"; print_r($data); die;
+           
+            $rules = [
+                'admin_name'=>'required|max:255|regex:/^[\pL\s]+$/u',
+                'admin_mobile'=>'required|numeric|min:10|regex:/^\+?[0-9]+$/',
+            ];
+            $customMessages = [
+                'admin_name.required'=>'Name is required',
+                'admin_mobile.required'=>'Mobile is required',
+                'admin_mobile.numeric'=>'Valid mobile is required',
+                // 'admin_mobile.max'=>'Mobile maximum number should be 11 digits',
+                'admin_mobile.min'=>'Mobile minimum number should be 10 digits',
+            ];
+
+            $this->validate($request, $rules, $customMessages);
+
+            // Update Admin details
+            Admin::where('email', Auth::guard('admin')->user()->email)
+                  ->update([
+                    'name'=>$data['admin_name'],
+                    'mobile'=>$data['admin_mobile']
+                ]);
+                return redirect()->back()->with('success_message', 'Admin details have been changed successfully');
+         }    
+        return view('admin.update_admin_details');
+    }
     // public function checkAdmin(){
     //     if(Auth::guard('admin')->check()){
     //         return 'true';

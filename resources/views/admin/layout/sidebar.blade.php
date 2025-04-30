@@ -55,7 +55,7 @@
                              </a>
                          </li>
                          <li class="nav-item">
-                             <a href="./index2.html" class="nav-link">
+                             <a href="update-details" class="nav-link">
                                  <i class="far fa-circle nav-icon"></i>
                                  <p>Update Admin Details</p>
                              </a>
