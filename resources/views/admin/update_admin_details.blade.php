@@ -49,7 +49,7 @@
                                 </div>
                             @endif
                             <!-- form start -->
-                            <form method="post" action="{{ url('admin/update-details') }}">
+                            <form method="post" action="{{ url('admin/update-details') }}" enctype="multipart/form-data">
 
                                 @csrf
                                 <div class="card-body">
@@ -71,11 +71,16 @@
                                             placeholder="Insert mobile number"
                                             value="{{ Auth::guard('admin')->user()->mobile }}">
                                     </div>
-                                    {{-- <div class="form-group">
-                                        <label for="confirm_pwd">Confirm Password</label>
-                                        <input type="password" name="confirm_pwd" class="form-control" id="confirm_pwd"
-                                            placeholder="Confirm Password">
-                                    </div> --}}
+                                    <div class="form-group">
+                                        <label for="admin_image">Image</label>
+                                        <input type="file" name="admin_image" class="form-control" id="admin_image">
+                                        @if (!empty(Auth::guard('admin')->user()->image))
+                                            <a href="{{ url('admin/images/photos/' . Auth::guard('admin')->user()->image) }}"
+                                                target="_blank">View Image</a>
+                                            <input type="hidden" name="current_image"
+                                                value="{{ Auth::guard('admin')->user()->image }}">
+                                        @endif
+                                    </div>
 
                                 </div>
                                 <!-- /.card-body -->
