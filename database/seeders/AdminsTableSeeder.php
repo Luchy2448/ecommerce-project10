@@ -24,6 +24,14 @@ class AdminsTableSeeder extends Seeder
                  'image' => '',
                  'status' => 1,
                  ],
+                 ['id' =>2, 'name' => 'Sofia',
+                 'type' => 'admin',
+                 'mobile' => '1234567890',
+                 'email' => 'admin2@example.com',
+                 'password' => $password,
+                 'image' => '',
+                 'status' => 1,
+                 ],
          ];
         Admin::insert($adminRecords);
         

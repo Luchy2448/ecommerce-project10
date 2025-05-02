@@ -12,11 +12,16 @@
          <!-- Sidebar user panel (optional) -->
          <div class="user-panel mt-3 pb-3 mb-3 d-flex">
              <div class="image">
-                 <img src="{{ asset('admin/images/user2-160x160.jpg') }}" class="img-circle elevation-2"
-                     alt="User Image">
+                 @if (!empty(Auth::guard('admin')->user()->image))
+                     <img src="{{ url('admin/images/photos/' . Auth::guard('admin')->user()->image) }}"
+                         class="img-circle elevation-2" alt="User Image">
+                 @else
+                     <img src="{{ asset('admin/images/default-user-img.jpg') }}" class="img-circle elevation-2"
+                         alt="User Image">
+                 @endif
              </div>
              <div class="info">
-                 <a href="#" class="d-block">Alexander Pierce</a>
+                 <a href="#" class="d-block">{{ Auth::guard('admin')->user()->name }}</a>
              </div>
          </div>
 
@@ -39,8 +44,25 @@
                  data-accordion="false">
                  <!-- Add icons to the links using the .nav-icon class
        with font-awesome or any other icon font library -->
+                 @php
+                     $active = Session::get('page') == 'dashboard' ? 'active' : '';
+                 @endphp
+                 <li class="nav-item">
+                     <a href="dashboard" class="nav-link {{ $active }}">
+                         <i class="nav-icon fas fa-th"></i>
+                         <p>
+                             Dashboard
+                         </p>
+                     </a>
+                 </li>
+                 @php
+                     $active =
+                         Session::get('page') == 'update-details' || Session::get('page') == 'update_password'
+                             ? 'active'
+                             : '';
+                 @endphp
                  <li class="nav-item menu-open">
-                     <a href="#" class="nav-link active">
+                     <a href="#" class="nav-link {{ $active }}">
                          <i class="nav-icon fas fa-tachometer-alt"></i>
                          <p>
                              Settings
@@ -48,14 +70,20 @@
                          </p>
                      </a>
                      <ul class="nav nav-treeview">
+                         @php
+                             $active = Session::get('page') == 'update_password' ? 'active' : '';
+                         @endphp
                          <li class="nav-item">
-                             <a href="update_password" class="nav-link active">
+                             <a href="update_password" class="nav-link {{ $active }}">
                                  <i class="far fa-circle nav-icon"></i>
                                  <p>Update Admin Password</p>
                              </a>
                          </li>
+                         @php
+                             $active = Session::get('page') == 'update-details' ? 'active' : '';
+                         @endphp
                          <li class="nav-item">
-                             <a href="update-details" class="nav-link">
+                             <a href="update-details" class="nav-link  {{ $active }}">
                                  <i class="far fa-circle nav-icon"></i>
                                  <p>Update Admin Details</p>
                              </a>
@@ -68,20 +96,12 @@
                          </li> --}}
                      </ul>
                  </li>
-                 <li class="nav-item">
-                     <a href="pages/widgets.html" class="nav-link">
-                         <i class="nav-icon fas fa-th"></i>
-                         <p>
-                             Widgets
-                             <span class="right badge badge-danger">New</span>
-                         </p>
-                     </a>
-                 </li>
+
                  <li class="nav-item">
                      <a href="#" class="nav-link">
                          <i class="nav-icon fas fa-copy"></i>
                          <p>
-                             Layout Options
+                             CMS Pages
                              <i class="fas fa-angle-left right"></i>
                              <span class="badge badge-info right">6</span>
                          </p>

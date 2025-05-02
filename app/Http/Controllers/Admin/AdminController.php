@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 
 
 
@@ -15,7 +16,9 @@ use Illuminate\Support\Facades\Hash;
 class AdminController extends Controller
 {
     public function dashboard()
-    {
+    {   
+        Session::put('page', 'dashboard');
+        // dd(Session::get('page'));
         return view('admin.dashboard');
     }
 
@@ -55,31 +58,56 @@ class AdminController extends Controller
     }
 
     public function updatePassword(Request $request)
-    {
+    {   
+        Session::put('page', 'update_password');
+
         if ($request->isMethod('post')) {
             $data = $request->all();
 
-            // Check if current password is correct
-            if (Hash::check($data['current_pwd'], Auth::guard('admin')->user()->password)) {
-                // Check if new password and confirm password are matching
-                if ($data['new_pwd'] == $data['confirm_pwd']) {
-                    // Update new password
-                    Admin::where('id', Auth::guard('admin')->user()->id)
-                        ->update(['password' => bcrypt($data['new_pwd'])]);
+            $rules = [
+                'current_pwd' => 'required|min:6|max:20',
+                'new_pwd' => 'required|min:6|max:20',
+                'confirm_pwd' => 'required|same:new_pwd',
+            ];
+    
+            $customMessages = [
+                'current_pwd.required' => 'Current Password is required',
+                'current_pwd.min' => 'Current Password must be at least 6 characters',
+                'current_pwd.max' => 'Current Password must not exceed 20 characters',
+                'new_pwd.required' => 'New Password is required',
+                'new_pwd.min' => 'New Password must be at least 6 characters',
+                'new_pwd.max' => 'New Password must not exceed 20 characters',
+                'confirm_pwd.required' => 'Confirm Password is required',
+                'confirm_pwd.same' => 'Confirm Password must match the New Password',
+            ];
+    
+            // Run validation
+            $this->validate($request, $rules, $customMessages);
 
-                    return redirect()->back()->with('success_message', 'Password has been changed successfully');
-                } else {
-                    return redirect()->back()->with('error_message', 'New Password and Confirm Password are not matching');
-                }
+            
+                 // Check if current password is correct
+        if (Hash::check($data['current_pwd'], Auth::guard('admin')->user()->password)) {
+            // Check if new password and confirm password are matching
+            if ($data['new_pwd'] == $data['confirm_pwd']) {
+                // Update new password
+                Admin::where('id', Auth::guard('admin')->user()->id)
+                    ->update(['password' => bcrypt($data['new_pwd'])]);
+
+                return redirect()->back()->with('success_message', 'Password has been changed successfully');
             } else {
-                return redirect()->back()->with('error_message', 'Current Password is incorrect');
+                return redirect()->back()->with('error_message', 'New Password and Confirm Password are not matching');
             }
+        } else {
+            return redirect()->back()->with('error_message', 'Current Password is incorrect');
         }
-        return view('admin.update_password');
     }
+    return view('admin.update_password');
+}
 
     public function checkCurrentPassword(Request $request)
-    {
+    {   
+        
+
         $data = $request->all();
 
         if (Hash::check($data['current_pwd'], Auth::guard('admin')->user()->password)) {
@@ -91,6 +119,9 @@ class AdminController extends Controller
     
 public function updateDetails(Request $request)
 {
+    Session::put('page', 'update-details');
+
+
     if ($request->isMethod('post')) {
         $data = $request->all();
 

@@ -30,7 +30,15 @@
                                 <h3 class="card-title">Update Admin Password</h3>
                             </div>
                             <!-- /.card-header -->
-
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
 
                             @if (Session::has('error_message'))
                                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -55,17 +63,18 @@
                                     <div class="form-group">
                                         <label for="current_pwd">Current Password</label>
                                         <input type="password" name="current_pwd" class="form-control" id="current_pwd"
-                                            placeholder="Insert Current Password"><span id="verifyCurrentPwd"></span>
+                                            placeholder="Insert Current Password" value="{{ old('current_pwd') }}"><span
+                                            id="verifyCurrentPwd"></span>
                                     </div>
                                     <div class="form-group">
                                         <label for="new_pwd">New Password</label>
                                         <input type="password" name="new_pwd" class="form-control" id="new_pwd"
-                                            placeholder="Insert New Password">
+                                            placeholder="Insert New Password" value="{{ old('new_pwd') }}">
                                     </div>
                                     <div class="form-group">
                                         <label for="confirm_pwd">Confirm Password</label>
                                         <input type="password" name="confirm_pwd" class="form-control" id="confirm_pwd"
-                                            placeholder="Confirm Password">
+                                            placeholder="Confirm Password" value="{{ old('confirm_pwd') }}">
                                     </div>
 
                                 </div>
