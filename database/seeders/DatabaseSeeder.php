@@ -18,6 +18,13 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+
+        //  \App\Models\CmsPage::factory(7)->create();
+
+
         $this->call(AdminsTableSeeder::class);
+        $this->call(CmsPageTableSeeder::class);
+
+
     }
 }

@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\Admin\AdminController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\CmsPageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +28,15 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
     Route::match(['get', 'post'], 'update-details', [AdminController::class, 'updateDetails'])->name('admin.update.details');
     Route::post('check-current-password', [AdminController::class, 'checkCurrentPassword'])->name('admin.check.current.password');
     Route::get('logout', [AdminController::class, 'logout'])->name('admin.logout');
-   
+
+
+    // Display CMS Pages (CRUD)
+    Route::get('cms_pages', [CmsPageController::class, 'index'])->name('admin.cms_pages.index');
+    Route::post('update-cms-page-status', [CmsPageController::class, 'update'])->name('admin.cms_pages.update');
+    // Route::get('add-edit-cms-page/{id?}', [CmsPageController::class, 'create'])->name('admin.cms_pages.create');
+    // Route::post('add-edit-cms-page/{id?}', [CmsPageController::class, 'store'])->name('admin.cms_pages.store');
+    // Route::get('delete-cms-page/{id}', [CmsPageController::class, 'destroy'])->name('admin.cms_pages.destroy');
+    // Route::get('view-cms-page/{id}', [CmsPageController::class, 'show'])->name('admin.cms_pages.show');
+    Route::match(['get', 'post'],'add-edit-cms-page', [CmsPageController::class, 'edit'])->name('admin.cms_pages.edit');
    }); 
 });

@@ -23,10 +23,10 @@
             <div class="container-fluid">
                 <div class="row">
                     <!-- left column -->
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <!-- general form elements -->
                         <div class="card card-primary">
-                            <div class="card-header">
+                            <div class="card-header" style="background-color: #135964">
                                 <h3 class="card-title">Update Admin Password</h3>
                             </div>
                             <!-- /.card-header -->
@@ -57,7 +57,7 @@
                                         <label for="admin_email">Email address</label>
                                         <input class="form-control" id="admin_email"
                                             value="{{ Auth::guard('admin')->user()->email }}" disabled
-                                            style="background-color: #666;">
+                                            style="background-color: #e9e9e9;">
                                     </div>
 
                                     <div class="form-group">
@@ -81,7 +81,8 @@
                                 <!-- /.card-body -->
 
                                 <div class="card-footer">
-                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <button type="submit" class="btn btn-primary"
+                                        style="background-color: #135964">Submit</button>
                                 </div>
                             </form>
                         </div>

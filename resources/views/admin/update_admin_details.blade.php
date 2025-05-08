@@ -23,10 +23,10 @@
             <div class="container-fluid">
                 <div class="row">
                     <!-- left column -->
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <!-- general form elements -->
                         <div class="card card-primary">
-                            <div class="card-header">
+                            <div class="card-header" style="background-color: #135964">
                                 <h3 class="card-title">Update Admin Details</h3>
                             </div>
                             <!-- /.card-header -->
@@ -57,7 +57,7 @@
                                         <label for="admin_email">Email address</label>
                                         <input class="form-control" id="admin_email"
                                             value="{{ Auth::guard('admin')->user()->email }}" disabled
-                                            style="background-color: #666;">
+                                            style="background-color: #e9e9e9;">
                                     </div>
 
                                     <div class="form-group">
@@ -73,20 +73,31 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="admin_image">Image</label>
-                                        <input type="file" name="admin_image" class="form-control" id="admin_image">
-                                        @if (!empty(Auth::guard('admin')->user()->image))
-                                            <a href="{{ url('admin/images/photos/' . Auth::guard('admin')->user()->image) }}"
-                                                target="_blank">View Image</a>
-                                            <input type="hidden" name="current_image"
-                                                value="{{ Auth::guard('admin')->user()->image }}">
-                                        @endif
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input type="file" name="admin_image" class="custom-file-input"
+                                                    id="admin_image">
+                                                <label class="custom-file-label" for="admin_image">Choose file</label>
+                                            </div>
+                                            <div class="input-group-append">
+                                                @if (!empty(Auth::guard('admin')->user()->image))
+                                                    <a href="{{ url('admin/images/photos/' . Auth::guard('admin')->user()->image) }}"
+                                                        target="_blank">
+                                                        <span class="input-group-text">View Image</span>
+                                                    </a>
+                                                    <input type="hidden" name="current_image"
+                                                        value="{{ Auth::guard('admin')->user()->image }}">
+                                                @endif
+                                            </div>
+                                        </div>
                                     </div>
 
                                 </div>
                                 <!-- /.card-body -->
 
                                 <div class="card-footer">
-                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <button type="submit" class="btn btn-primary"
+                                        style="background-color: #135964">Submit</button>
                                 </div>
                             </form>
                         </div>

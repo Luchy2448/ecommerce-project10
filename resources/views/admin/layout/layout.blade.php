@@ -17,11 +17,14 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('admin/css/adminlte.min.css') }}">
     <!-- Select2 -->
-    {{-- <link rel="stylesheet" href="{{ asset('admin/plugins/select2/css/select2.min.css') }}">
-   <link rel="stylesheet" href="{{ asset('admin/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}"> --}}
+    <link rel="stylesheet" href="{{ asset('admin/plugins/select2/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('admin/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+    <!-- Bootstrap4 Duallistbox -->
+    <link rel="stylesheet" href="{{ asset('admin/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css') }}">
+
 </head>
 
-<body class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<body class="sidebar-mini  __web-inspector-hide-shortcut__" style="height: auto;">
     <div class="wrapper">
 
         <!-- Preloader -->
