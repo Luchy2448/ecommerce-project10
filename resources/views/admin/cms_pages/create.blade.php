@@ -47,50 +47,37 @@
                         </div>
                     @endif
                     <!-- form start -->
-                    <form name="cmsForm" id="cmsForm" method="POST"
-                        @if (empty($cmsPage->id)) action="{{ url('admin/add-edit-cms-page') }}" @else action="{{ url('admin/add-edit-cms-page/' . $cmsPage->id) }}" @endif>
+                    <form name="cmsForm" id="cmsForm" method="POST" action="{{ url('admin/add-edit-cms-page') }}">
                         @csrf
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="title">Title*</label>
                                 <input type="text" name="title" class="form-control" id="title"
-                                    placeholder="Enter page title"
-                                    @if (!empty($cmsPage->title)) value="{{ $cmsPage->title }}" @endif>
+                                    placeholder="Enter page title">
                             </div>
                             <div class="form-group">
                                 <label for="url">URL*</label>
                                 <input type="text" name="url" class="form-control" id="url"
-                                    placeholder="Enter page URL"
-                                    @if (!empty($cmsPage->url)) value="{{ $cmsPage->url }}" @endif>
+                                    placeholder="Enter page URL">
                             </div>
                             <div class="form-group">
                                 <label for="description">Description*</label>
-                                <textarea id="description" name="description" class="form-control" rows="3" placeholder="Enter page description">
-@if (!empty($cmsPage->description))
-{{ $cmsPage->description }}
-@endif
-</textarea>
+                                <textarea id="description" name="description" class="form-control" rows="3" placeholder="Enter page description"></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="meta_title">Meta Title</label>
                                 <input type="text" name="meta_title" class="form-control" id="meta_title"
-                                    placeholder="Enter page meta title"
-                                    @if (!empty($cmsPage->meta_title)) value="{{ $cmsPage->meta_title }}" @endif>
+                                    placeholder="Enter page meta title">
                             </div>
                             <div class="form-group">
                                 <label for="meta_description">Meta Description</label>
                                 <textarea id="meta_description" name="meta_description" class="form-control" rows="3"
-                                    placeholder="Enter page meta description">
-@if (!empty($cmsPage->meta_description))
-{{ $cmsPage->meta_description }}
-@endif
-</textarea>
+                                    placeholder="Enter page meta description"></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="meta_keyword">Meta Keywords</label>
                                 <input type="text" name="meta_keyword" class="form-control" id="meta_keyword"
-                                    placeholder="Enter page meta keywords"
-                                    @if (!empty($cmsPage->meta_keyword)) value="{{ $cmsPage->meta_keyword }}" @endif>
+                                    placeholder="Enter page meta keywords">
                             </div>
                             {{--  <div class="form-group">
                                 <label for="exampleInputFile">File input</label>
@@ -159,17 +146,5 @@
                 theme: 'bootstrap4'
             })
         })
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        @if (session('success_message'))
-
-            Swal.fire({
-                // title: "¡Éxito!",
-                text: "{{ session('success_message') }}",
-                icon: "success",
-                draggable: true
-            });
-        @endif
     </script>
 @endsection

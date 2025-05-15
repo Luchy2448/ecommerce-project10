@@ -22,17 +22,19 @@
                                         <th>URL</th>
                                         <th>Created on</th>
                                         <th>Status</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($cmsPages as $cmsPage)
                                         <tr>
                                             <td>{{ $cmsPage->id }}</td>
-                                            <td>{{ $cmsPage->title }}</td>
+                                            <td style="width: 30%">{{ $cmsPage->title }}</td>
                                             {{-- <td>{{ $cmsPage->description }}</td> --}}
-                                            <td>{{ $cmsPage->url }}</td>
-                                            <td>{{ $cmsPage->created_at }}</td>
-                                            <td>
+                                            <td style="width: 30%">{{ $cmsPage->url }}</td>
+                                            <td>{{ date('d-m-Y', strtotime($cmsPage->created_at)) }}</td>
+
+                                            <td class="text-center">
                                                 @if ($cmsPage->status == 1)
                                                     <a href="javascript:void(0);" class="updateCmsPageStatus"
                                                         id="page-{{ $cmsPage->id }}" page_id="{{ $cmsPage->id }}"
@@ -46,17 +48,24 @@
                                                         <i class="fas fa-toggle-off" style="color: grey;"></i>
                                                     </a>
                                                 @endif
-                                                {{-- <a href="#" class="btn btn-primary">Edit</a>
-                                                <form action="#" method="POST" style="display:inline;">
+
+                                            </td>
+                                            <td class="text-center">
+                                                <a href="{{ url('admin/add-edit-cms-page/' . $cmsPage->id) }}">
+                                                    <i class="fas fa-edit" style="color: #135964"></i>
+                                                </a>
+                                                <form action="{{ url('admin/delete-cms-page/' . $cmsPage->id) }}"
+                                                    method="POST" style="display:inline;">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger">Delete</button>
-                                                </form> --}}
+                                                    <a href="{{ url('admin/delete-cms-page/' . $cmsPage->id) }}">
+                                                        <i class="fas fa-trash" style="color: #135964"></i>
+                                                    </a>
+                                                </form>
                                             </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
-
                             </table>
                         </div>
                         <!-- /.card-body -->
@@ -81,5 +90,17 @@
         $(function() {
             $("#cmspages").DataTable();
         });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        @if (session('success_message'))
+
+            Swal.fire({
+                // title: "¡Éxito!",
+                text: "{{ session('success_message') }}",
+                icon: "success",
+                draggable: true
+            });
+        @endif
     </script>
 @endsection

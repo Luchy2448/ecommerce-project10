@@ -35,8 +35,9 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
     Route::post('update-cms-page-status', [CmsPageController::class, 'update'])->name('admin.cms_pages.update');
     // Route::get('add-edit-cms-page/{id?}', [CmsPageController::class, 'create'])->name('admin.cms_pages.create');
     // Route::post('add-edit-cms-page/{id?}', [CmsPageController::class, 'store'])->name('admin.cms_pages.store');
-    // Route::get('delete-cms-page/{id}', [CmsPageController::class, 'destroy'])->name('admin.cms_pages.destroy');
+    
     // Route::get('view-cms-page/{id}', [CmsPageController::class, 'show'])->name('admin.cms_pages.show');
-    Route::match(['get', 'post'],'add-edit-cms-page', [CmsPageController::class, 'edit'])->name('admin.cms_pages.edit');
-   }); 
+    Route::match(['get', 'post'],'add-edit-cms-page/{id?}' , [CmsPageController::class, 'edit'])->name('admin.cms_pages.edit');
+    Route::get('delete-cms-page/{id}', [CmsPageController::class, 'destroy'])->name('admin.cms_pages.destroy');
+}); 
 });

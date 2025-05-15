@@ -51,17 +51,47 @@ class CmsPageController extends Controller
      */
     public function edit(Request $request, $id = null)
     {
+        // create and edit CMS page
+
+
         if ($id == "") {
             $title = "Add CMS Page";
-           // $cmsPage = new CmsPage();
-           // $message = "CMS Page added successfully!";
+            $cmsPage = new CmsPage;
+            $message = "CMS Page Added Successfully";
+           
         } else {
             $title = "Edit CMS Page";
-         //   $cmsPage = CmsPage::find($id);
-           // $message = "CMS Page updated successfully!";
+            $cmsPage = CmsPage::find($id);
+            $message = "CMS Page Updated Successfully";
         }
 
-        return view('admin.cms_pages.edit', compact('title'));
+        if($request->isMethod('post')) {
+            $data = $request->all();
+            $rules = [
+                'title' => 'required',
+                'url' => 'required',
+                'description' => 'required',
+            ];
+            $customMessages = [
+                'title.required' => 'Page Title is required',
+                'url.required' => 'Page URL is required',
+                'description.required' => 'Page Description is required',
+            ];
+            $this->validate($request, $rules, $customMessages);
+            
+            $cmsPage->title = $data['title'];
+            $cmsPage->url = $data['url'];
+            $cmsPage->description = $data['description'];
+            $cmsPage->meta_title = $data['meta_title'];
+            $cmsPage->meta_description = $data['meta_description'];
+            $cmsPage->meta_keyword = $data['meta_keyword'];
+            $cmsPage->status = 1;
+            $cmsPage->save();
+
+            return redirect()->route('admin.cms_pages.index')->with('success_message', $message);
+        }
+
+        return view('admin.cms_pages.edit', compact('title', 'cmsPage'));
     }
 
     /**
@@ -86,8 +116,10 @@ class CmsPageController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(CmsPage $cmsPage)
+    public function destroy($id)
     {
-        //
+        //delete CMS page
+        CmsPage::where('id', $id)->delete();
+        return redirect()->route('admin.cms_pages.index')->with('success_message', 'CMS Page Deleted Successfully');
     }
 }
