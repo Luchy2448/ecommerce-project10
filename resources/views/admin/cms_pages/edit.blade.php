@@ -165,7 +165,7 @@
         @if (session('success_message'))
 
             Swal.fire({
-                // title: "¡Éxito!",
+                title: "Great!",
                 text: "{{ session('success_message') }}",
                 icon: "success",
                 draggable: true

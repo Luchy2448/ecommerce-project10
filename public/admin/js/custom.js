@@ -56,3 +56,37 @@ $(document).on("click", ".updateCmsPageStatus", function () {
         },
     });
 });
+
+// Confirm the delete action of the CMS page
+// $(document).on("click", ".confirmDelete", function () {
+//     var name = $(this).attr("name");
+//     if (confirm("Are you sure you want to delete this " + name + "?")) {
+//         return true;
+//     } else {
+//         return false;
+//     }
+// });
+
+// Confirm the delete action with SweetAlert
+$(document).on("click", ".confirmDelete", function () {
+    var record = $(this).attr("record");
+    var recordid = $(this).attr("recordid");
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Swal.fire({
+            //     title: "Deleted!",
+            //     text: "Your file has been deleted.",
+            //     icon: "success",
+            // });
+            window.location.href = "/admin/delete-" + record + "/" + recordid;
+        }
+    });
+});

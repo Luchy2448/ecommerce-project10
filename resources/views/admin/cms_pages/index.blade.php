@@ -58,7 +58,9 @@
                                                     method="POST" style="display:inline;">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <a href="{{ url('admin/delete-cms-page/' . $cmsPage->id) }}">
+                                                    <a class="confirmDelete" name="CMS Page" title="Delete CMS Page"
+                                                        href="javascript:void(0);" record="cms-page"
+                                                        recordid="{{ $cmsPage->id }}" <?php /* href="{{ url('admin/delete-cms-page/' . $cmsPage->id) }}" */ ?>>
                                                         <i class="fas fa-trash" style="color: #135964"></i>
                                                     </a>
                                                 </form>
@@ -96,7 +98,7 @@
         @if (session('success_message'))
 
             Swal.fire({
-                // title: "¡Éxito!",
+                title: "Great!",
                 text: "{{ session('success_message') }}",
                 icon: "success",
                 draggable: true
