@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Session;
 
 
@@ -43,6 +44,15 @@ class AdminController extends Controller
                 'email' => $data['email'],
                 'password' => $data['password'],
             ])) {
+                // Remember admin email and password with cookies
+                if(isset($data['remember'])&&!empty($data['remember'])) {
+                    Cookie::queue('admin_email', $data['email'], 1440);
+                    Cookie::queue('admin_password', $data['password'], 1440);
+                }else {
+                    Cookie::queue(Cookie::forget('admin_email'));
+                    Cookie::queue(Cookie::forget('admin_password'));
+                }
+
                 return redirect()->route('admin.dashboard');
             } else {
                 return redirect()->back()->with('error_message', 'Invalid Email or Password');
