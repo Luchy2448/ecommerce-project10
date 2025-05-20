@@ -33,11 +33,14 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
     // Display CMS Pages (CRUD)
     Route::get('cms_pages', [CmsPageController::class, 'index'])->name('admin.cms_pages.index');
     Route::post('update-cms-page-status', [CmsPageController::class, 'update'])->name('admin.cms_pages.update');
-    // Route::get('add-edit-cms-page/{id?}', [CmsPageController::class, 'create'])->name('admin.cms_pages.create');
-    // Route::post('add-edit-cms-page/{id?}', [CmsPageController::class, 'store'])->name('admin.cms_pages.store');
-    
-    // Route::get('view-cms-page/{id}', [CmsPageController::class, 'show'])->name('admin.cms_pages.show');
     Route::match(['get', 'post'],'add-edit-cms-page/{id?}' , [CmsPageController::class, 'edit'])->name('admin.cms_pages.edit');
     Route::get('delete-cms-page/{id}', [CmsPageController::class, 'destroy'])->name('admin.cms_pages.destroy');
+
+
+    // subadmin
+    Route::get('subadmins', [AdminController::class, 'subadmins'])->name('admin.subadmins.index');
+    Route::post('update-subadmin-status', [AdminController::class, 'updateSubadminStatus'])->name('admin.subadmins.update');
+    Route::match(['get', 'post'],'add-edit-subadmin/{id?}', [AdminController::class, 'addEditSubadmin'])->name('admin.add.edit.subadmin');
+    Route::get('delete-subadmin/{id}', [AdminController::class, 'deleteSubadmin'])->name('admin.delete.subadmin');
 }); 
 });

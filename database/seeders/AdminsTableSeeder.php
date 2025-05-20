@@ -25,7 +25,7 @@ class AdminsTableSeeder extends Seeder
                  'status' => 1,
                  ],
                  ['id' =>2, 'name' => 'Sofia',
-                 'type' => 'admin',
+                 'type' => 'subadmin',
                  'mobile' => '1234567890',
                  'email' => 'admin2@example.com',
                  'password' => $password,

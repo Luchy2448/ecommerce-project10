@@ -83,7 +83,9 @@
                                                 @if (!empty(Auth::guard('admin')->user()->image))
                                                     <a href="{{ url('admin/images/photos/' . Auth::guard('admin')->user()->image) }}"
                                                         target="_blank">
-                                                        <span class="input-group-text">View Image</span>
+                                                        <span class="input-group-text"
+                                                            style="background-color : #135964; color: white;   border-top-left-radius: 0;   border-bottom-left-radius: 0; border: 1px solid #135964">View
+                                                            Image</span>
                                                     </a>
                                                     <input type="hidden" name="current_image"
                                                         value="{{ Auth::guard('admin')->user()->image }}">

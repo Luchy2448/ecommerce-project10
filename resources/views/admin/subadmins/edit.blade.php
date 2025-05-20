@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
+        <!-- Content Header (Subadmin header) -->
         <section class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
@@ -25,7 +25,7 @@
                 <!-- general form elements -->
                 <div class="card card-primary">
                     <div class="card-header" style="background-color: #135964">
-                        <h3 class="card-title">CMS Page</h3>
+                        <h3 class="card-title">Sub Admin</h3>
                     </div>
                     <!-- /.card-header -->
                     @if ($errors->any())
@@ -47,38 +47,67 @@
                         </div>
                     @endif
                     <!-- form start -->
-                    <form name="cmsForm" id="cmsForm" method="POST" action="{{ url('admin/add-edit-cms-page') }}">
+                    <form name="subadminForm" id="subadminForm" method="POST" enctype="multipart/form-data"
+                        autocomplete="off"
+                        @if (empty($subadmin->id)) action="{{ url('admin/add-edit-subadmin') }}" @else action="{{ url('admin/add-edit-subadmin/' . $subadmin->id) }}" @endif>
                         @csrf
                         <div class="card-body">
+
                             <div class="form-group">
-                                <label for="title">Title*</label>
-                                <input type="text" name="title" class="form-control" id="title"
-                                    placeholder="Enter page title">
+
+                                <label for="subadmin_email">Email*</label>
+
+                                <input @if ($subadmin['id'] != '') disabled style="background-color: #e9e9e9;" @endif
+                                    type="email" id="subadmin_email" name="subadmin_email" class="form-control"
+                                    rows="3" placeholder="Enter subadmin email"
+                                    value="{{ old('email', $subadmin->email ?? '') }}" autocomplete="nope"
+                                    @if (!empty($subadmin->id))  @endif>
                             </div>
                             <div class="form-group">
-                                <label for="url">URL*</label>
-                                <input type="text" name="url" class="form-control" id="url"
-                                    placeholder="Enter page URL">
+                                <label for="subadmin_pwd">Password</label>
+                                <input @if ($subadmin['subadmin_pwd'] != '') disabled style="background-color: #e9e9e9;" @endif
+                                    type="password" name="subadmin_pwd" class="form-control" id="subadmin_pwd"
+                                    placeholder="Insert password"
+                                    value="{{ old('subadmin_pwd', $subadmin->password ?? '') }}">
                             </div>
                             <div class="form-group">
-                                <label for="description">Description*</label>
-                                <textarea id="description" name="description" class="form-control" rows="3" placeholder="Enter page description"></textarea>
+                                <label for="name">Name*</label>
+                                <input type="text" name="name" class="form-control" id="name"
+                                    placeholder="Enter subadmin name" value="{{ old('name', $subadmin->name ?? '') }}">
                             </div>
                             <div class="form-group">
-                                <label for="meta_title">Meta Title</label>
-                                <input type="text" name="meta_title" class="form-control" id="meta_title"
-                                    placeholder="Enter page meta title">
+                                <label for="mobile">Mobile*</label>
+                                <input type="number" name="mobile" class="form-control" id="mobile"
+                                    placeholder="Enter subadmin mobile" min="10"
+                                    value="{{ old('mobile', $subadmin->mobile ?? '') }}">
                             </div>
+
                             <div class="form-group">
-                                <label for="meta_description">Meta Description</label>
-                                <textarea id="meta_description" name="meta_description" class="form-control" rows="3"
-                                    placeholder="Enter page meta description"></textarea>
+                                <label for="image">Image</label>
+                                <div class="input-group">
+                                    <div class="custom-file">
+                                        <input type="file" name="image" class="custom-file-input" id="image">
+                                        <label class="custom-file-label" for="image">Choose file</label>
+                                    </div>
+                                    <div class="input-group-append">
+                                        @if (!empty($subadmin->image))
+                                            <a href="{{ url('admin/images/photos/' . $subadmin->image) }}" target="_blank">
+                                                <span class="input-group-text">View Image</span>
+                                            </a>
+                                            <input type="hidden" name="current_image" value="{{ $subadmin->image }}">
+                                        @endif
+                                    </div>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="meta_keyword">Meta Keywords</label>
-                                <input type="text" name="meta_keyword" class="form-control" id="meta_keyword"
-                                    placeholder="Enter page meta keywords">
-                            </div>
+                            {{-- <div class="form-group">
+                                <label for="type">Type</label>
+                                <input type="text" name="type" class="form-control" id="type"
+                                    placeholder="Enter subadmin meta title"
+                                    @if (!empty($subadmin->type)) value="{{ $subadmin->type }}" @endif>
+                            </div> --}}
+
+
+
                             {{--  <div class="form-group">
                                 <label for="exampleInputFile">File input</label>
                                 <div class="input-group">
@@ -102,7 +131,7 @@
                                         style="width: 100%;">
                                         <option>Alabama</option>
                                         <option>Alaska</option>
-                                        <option>California</option>
+                                     p   <option>California</option>
                                         <option>Delaware</option>
                                         <option>Tennessee</option>
                                         <option>Texas</option>
@@ -146,5 +175,28 @@
                 theme: 'bootstrap4'
             })
         })
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        @if (session('success_message'))
+
+            Swal.fire({
+                title: "Great!",
+                text: "{{ session('success_message') }}",
+                icon: "success",
+                draggable: true
+            });
+        @endif
+    </script>
+    <script>
+        @if (session('sweet_error_message'))
+            {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "{{ session('sweet_error_message') }}",
+                });
+            }
+        @endif
     </script>
 @endsection

@@ -188,5 +188,116 @@ public function updateDetails(Request $request)
     }
     return view('admin.update_admin_details');
 }
-  
+public function subadmins()
+{
+    Session::put('page', 'subadmins');
+
+    $subadmins = Admin::where('type', 'subadmin')->get();
+    return view('admin.subadmins.index')->with(compact('subadmins'));
+  }
+
+public function addEditSubadmin(Request $request, $id = null)
+{
+    // create and edit subadmin page
+
+    if ($id == "") {
+        $title = "Add Sub Admin";
+        $subadmin = new Admin;
+        $message = "Sub Admin Added Successfully";
+    } else {
+        $title = "Edit Sub Admin";
+        $subadmin = Admin::find($id);
+        $message = "Sub Admin Updated Successfully";
+    }
+
+    if ($request->isMethod('post')) {
+
+        $data = $request->all();
+
+        if ($id == "") {
+            $subadminCount = Admin::where('email', $data['subadmin_email'])->count();
+            if ($subadminCount > 0) {
+                return redirect()->back()->with('sweet_error_message', 'The email already exists!');
+            }
+        }
+
+        $rules = [
+            'name' => 'required',
+            'mobile' => 'required|numeric|min:10|regex:/^\+?[0-9]+$/',
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ];
+        $customMessages = [
+            'name.required' => 'Sub Admin Name is required',
+            'mobile.required' => 'Sub Admin Mobile is required',
+            'mobile.numeric' => 'Valid mobile is required',
+            'mobile.min' => 'Mobile minimum number should be 10 digits',
+            'image.image' => 'Valid image is required',
+            'image.mimes' => 'Valid image is required',
+            'image.max' => 'Image size should be less than 2MB',
+        ];
+        $this->validate($request, $rules, $customMessages);
+
+        // Upload image
+        if ($request->hasFile('image')) {
+            $image_tmp = $request->file('image');
+            // Si está editando, elimina la imagen anterior
+            if ($id != "" && !empty($subadmin->image)) {
+                $currentImagePath = public_path('admin/images/photos/' . $subadmin->image);
+                if (file_exists($currentImagePath)) {
+                    unlink($currentImagePath);
+                }
+            }
+
+            if ($image_tmp->isValid()) {
+                // Genera nuevo nombre de imagen
+                $imageName = rand(111, 99999) . '.' . $image_tmp->getClientOriginalExtension();
+                // Define la ruta para guardar la imagen
+                $image_path = public_path('admin/images/photos/');
+                // Mueve la imagen a la ruta especificada
+                $image_tmp->move($image_path, $imageName);
+                $subadmin->image = $imageName;
+            }
+        }
+
+        $subadmin->name = $data['name'];
+        $subadmin->mobile = $data['mobile'];
+
+        if ($id == "") {
+            $subadmin->email = $data['subadmin_email'];
+            $subadmin->type = 'subadmin';
+        }
+
+        // Solo actualiza la contraseña si se envía un valor
+        if ($data['subadmin_pwd']!== "") {
+            $subadmin->password = bcrypt($data['subadmin_pwd']);
+        }
+
+        $subadmin->save();
+
+        return redirect()->route('admin.subadmins.index')->with('success_message', $message);
+    }
+
+    return view('admin.subadmins.edit', compact('title', 'subadmin'));
+}
+
+public function updateSubadminStatus(Request $request)
+{
+    if ($request->ajax()) {
+        $data = $request->all();
+        if ($data['status'] == "Active") {
+            $status = 0;
+        } else {
+            $status = 1;
+        }
+        Admin::where('id', $data['subadmin_id'])->update(['status' => $status]);
+        return response()->json(['status' => $status, 'subadmin_id' => $data['subadmin_id']]);
+    }
+}
+public function deleteSubadmin($id)
+{
+   
+        Admin::where('id', $id)->delete();
+        return redirect()->back()->with('success_message', 'Subadmin has been deleted successfully');
+
+}
 }

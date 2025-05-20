@@ -20,7 +20,7 @@ class CmsPageFactory extends Factory
             //
             'id' => fake()->unique()->numberBetween(4, 10),
             'title' => fake()->sentence(),
-            'description' => fake()->slug(),
+            'description' => fake()->sentence(),
             'url' => fake()->url(),
             'meta_title' => fake()->sentence(),
             'meta_description' => fake()->sentence(),
