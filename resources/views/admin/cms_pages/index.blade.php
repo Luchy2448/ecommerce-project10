@@ -8,8 +8,10 @@
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">CMS Pages</h3>
-                            <a href="add-edit-cms-page" class="btn btn-primary float-right"
-                                style="background-color: #17a2b8">Add CMS Page</a>
+                            @if ($pagesModule['add_access'] == 1 || $pagesModule['full_access'] == 1)
+                                <a href="add-edit-cms-page" class="btn btn-primary float-right"
+                                    style="background-color: #17a2b8">Add CMS Page</a>
+                            @endif
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
@@ -21,8 +23,10 @@
                                         {{-- <th>Description</th> --}}
                                         <th>URL</th>
                                         <th>Created on</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
+                                        @if ($pagesModule['edit_access'] == 1 || $pagesModule['full_access'] == 1)
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        @endif
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -34,37 +38,47 @@
                                             <td style="width: 30%">{{ $cmsPage->url }}</td>
                                             <td>{{ date('d-m-Y', strtotime($cmsPage->created_at)) }}</td>
 
-                                            <td class="text-center">
-                                                @if ($cmsPage->status == 1)
-                                                    <a href="javascript:void(0);" class="updateCmsPageStatus"
-                                                        id="page-{{ $cmsPage->id }}" page_id="{{ $cmsPage->id }}"
-                                                        status="Active" style="color: #135964">
-                                                        <i class="fas fa-toggle-on"></i>
-                                                    </a>
-                                                @else
-                                                    <a href="javascript:void(0);" class="updateCmsPageStatus"
-                                                        id="page-{{ $cmsPage->id }}" page_id="{{ $cmsPage->id }}"
-                                                        status="Inactive">
-                                                        <i class="fas fa-toggle-off" style="color: grey;"></i>
-                                                    </a>
-                                                @endif
 
-                                            </td>
-                                            <td class="text-center">
-                                                <a href="{{ url('admin/add-edit-cms-page/' . $cmsPage->id) }}">
-                                                    <i class="fas fa-edit" style="color: #135964"></i>
-                                                </a>
+                                            @if ($pagesModule['edit_access'] == 1 || $pagesModule['full_access'] == 1)
+                                                <td class="text-center">
+                                                    @if ($cmsPage->status == 1)
+                                                        <a href="javascript:void(0);" class="updateCmsPageStatus"
+                                                            id="page-{{ $cmsPage->id }}" page_id="{{ $cmsPage->id }}"
+                                                            status="Active" style="color: #135964">
+                                                            <i class="fas fa-toggle-on"></i>
+                                                        </a>
+                                                    @else
+                                                        <a href="javascript:void(0);" class="updateCmsPageStatus"
+                                                            id="page-{{ $cmsPage->id }}" page_id="{{ $cmsPage->id }}"
+                                                            status="Inactive">
+                                                            <i class="fas fa-toggle-off" style="color: grey;"></i>
+                                                        </a>
+                                                    @endif
+                                                </td>
+                                            @endif
+
+
+                                            @if ($pagesModule['edit_access'] == 1 || $pagesModule['full_access'] == 1)
+                                                <td class="text-center">
+                                                    <a href="{{ url('admin/add-edit-cms-page/' . $cmsPage->id) }}">
+                                                        <i class="fas fa-edit" style="color: #135964"></i>
+                                                    </a>
+                                            @endif
+                                            @if ($pagesModule['full_access'] == 1)
                                                 <form action="{{ url('admin/delete-cms-page/' . $cmsPage->id) }}"
                                                     method="POST" style="display:inline;">
                                                     @csrf
                                                     @method('DELETE')
+
                                                     <a class="confirmDelete" name="CMS Page" title="Delete CMS Page"
                                                         href="javascript:void(0);" record="cms-page"
                                                         recordid="{{ $cmsPage->id }}" <?php /* href="{{ url('admin/delete-cms-page/' . $cmsPage->id) }}" */ ?>>
                                                         <i class="fas fa-trash" style="color: #135964"></i>
                                                     </a>
                                                 </form>
-                                            </td>
+                                                </td>
+                                            @endif
+
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -103,6 +117,17 @@
                 icon: "success",
                 draggable: true
             });
+        @endif
+    </script>
+    <script>
+        @if (session('sweet_error_message'))
+            {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "{{ session('sweet_error_message') }}",
+                });
+            }
         @endif
     </script>
 @endsection

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Validator;
 use App\Models\Admin;
+use App\Models\AdminsRole;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -299,5 +300,61 @@ public function deleteSubadmin($id)
         Admin::where('id', $id)->delete();
         return redirect()->back()->with('success_message', 'Subadmin has been deleted successfully');
 
+}
+
+public function updateRole(Request $request, $id)
+{
+    if ($request->isMethod('post')) {
+        $data = $request->all();
+        // dd ($data);
+
+        // Delete all earlier roles for subadmin
+        AdminsRole::where('subadmin_id', $id)->delete();
+
+         // Add new roles for subadmin dinamically
+        foreach ($data as $key => $value) {
+            if(isset($value['view'])){
+                $view = $value['view'];
+            }else{
+                $view = 0;
+            }
+            if(isset($value['add'])){
+                $add = $value['add'];
+            }else{
+                $add = 0;
+            }
+            if(isset($value['edit'])){
+                $edit = $value['edit'];
+            }else{
+                $edit = 0;
+            }
+            if(isset($value['full'])){
+                $full = $value['full'];
+            }else{
+                $full = 0;
+            }
+        }
+
+        $role = new AdminsRole;
+        $role->subadmin_id = $id;
+        $role->module = $key;
+        $role->view_access = $view;
+        $role->add_access = $add;
+        $role->edit_access = $edit;
+        $role->full_access = $full;
+        $role->save();
+
+        return redirect()->route('admin.subadmins.index')->with('success_message', 'Subadmin roles has been updated successfully!');
+    }
+
+
+    // Obtain the current subadmin permissions for the cms_pages module 
+     $role = AdminsRole::where('subadmin_id', $id)->where('module', 'cms_pages')->first();
+     
+     $subadminDetails = Admin::where('id', $id)->first();
+
+     $title = "Update ". $subadminDetails['name'] ." Subadmin Roles/Permissions";
+
+    return view('admin.subadmins.update_roles', compact('title', 'id', 'role'));
 }
 }

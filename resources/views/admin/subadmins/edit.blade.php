@@ -99,27 +99,7 @@
                                     </div>
                                 </div>
                             </div>
-                            {{-- <div class="form-group">
-                                <label for="type">Type</label>
-                                <input type="text" name="type" class="form-control" id="type"
-                                    placeholder="Enter subadmin meta title"
-                                    @if (!empty($subadmin->type)) value="{{ $subadmin->type }}" @endif>
-                            </div> --}}
-
-
-
-                            {{--  <div class="form-group">
-                                <label for="exampleInputFile">File input</label>
-                                <div class="input-group">
-                                    <div class="custom-file">
-                                        <input type="file" class="custom-file-input" id="exampleInputFile">
-                                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                                    </div>
-                                    <div class="input-group-append">
-                                        <span class="input-group-text">Upload</span>
-                                    </div>
-                                </div>
-                            </div>
+                            {{-- 
                             <div class="form-check">
                                 <input type="checkbox" class="form-check-input" id="exampleCheck1">
                                 <label class="form-check-label mb-3" for="exampleCheck1">Check me out</label>
@@ -131,7 +111,7 @@
                                         style="width: 100%;">
                                         <option>Alabama</option>
                                         <option>Alaska</option>
-                                     p   <option>California</option>
+                                        p <option>California</option>
                                         <option>Delaware</option>
                                         <option>Tennessee</option>
                                         <option>Texas</option>
@@ -144,7 +124,7 @@
                         <!-- /.card-body -->
 
                         <div class="card-footer">
-                            <button type="submit" class="btn btn-primary" style="background-color: #135964">Submit</button>
+                            <button type="submit" class="btn btn-primary" style="background-color: #135964">Save</button>
                         </div>
                     </form>
                 </div>

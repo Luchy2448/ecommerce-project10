@@ -921,3 +921,18 @@
         <!-- /.content -->
     </div>
 @endsection
+
+@section('script')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        @if (session('sweet_error_message'))
+            {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "{{ session('sweet_error_message') }}",
+                });
+            }
+        @endif
+    </script>
+@endsection

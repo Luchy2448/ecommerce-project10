@@ -67,6 +67,9 @@
                                                         <i class="fas fa-trash" style="color: #135964"></i>
                                                     </a>
                                                 </form>
+                                                <a href="{{ url('admin/update-role/' . $subadmin->id) }}">
+                                                    <i class="fas fa-unlock" style="color: #135964"></i>
+                                                </a>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -106,6 +109,17 @@
                 icon: "success",
                 draggable: true
             });
+        @endif
+    </script>
+    <script>
+        @if (session('sweet_error_message'))
+            {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "{{ session('sweet_error_message') }}",
+                });
+            }
         @endif
     </script>
 @endsection

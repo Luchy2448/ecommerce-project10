@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\CmsPage;
+use App\Models\AdminsRole;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class CmsPageController extends Controller
@@ -18,7 +20,22 @@ class CmsPageController extends Controller
 
         $cmsPages = CmsPage::all();
 
-        return view('admin.cms_pages.index', compact('cmsPages'));
+        // set admin/subadmins permissions for cms pages
+        $cmspagesModuleCount = AdminsRole::where(['subadmin_id'=>Auth::guard('admin')->user()->id,'module'=>'cms_pages'])->count();
+        $pagesModule = [];
+        if(Auth::guard('admin')->user()->type=='admin'){
+            $pagesModule['view_access'] = 1;
+            $pagesModule['add_access'] = 1;
+            $pagesModule['edit_access'] = 1;
+            $pagesModule['full_access'] = 1;
+        }else if($cmspagesModuleCount==0){
+            $message = "This feature is restricted for you!";
+            return redirect()->route('admin.dashboard')->with('sweet_error_message', $message);
+        }else{
+            $pagesModule = AdminsRole::where(['subadmin_id'=>Auth::guard('admin')->user()->id,'module'=>'cms_pages'])->first();
+        }
+
+        return view('admin.cms_pages.index', compact('cmsPages', 'pagesModule'));
         //
     }
 
@@ -82,9 +99,9 @@ class CmsPageController extends Controller
             $cmsPage->title = $data['title'];
             $cmsPage->url = $data['url'];
             $cmsPage->description = $data['description'];
-            $cmsPage->meta_title = $data['meta_title'];
-            $cmsPage->meta_description = $data['meta_description'];
-            $cmsPage->meta_keyword = $data['meta_keyword'];
+            $cmsPage->meta_title = $data['meta_title'] ?? '';
+            $cmsPage->meta_description = $data['meta_description'] ?? '';
+            $cmsPage->meta_keyword = $data['meta_keyword'] ?? '';
             $cmsPage->status = 1;
             $cmsPage->save();
 
