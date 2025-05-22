@@ -1,10 +1,12 @@
  <!-- Main Sidebar Container -->
  <aside class="main-sidebar sidebar-light-info elevation-4">
      <!-- Brand Logo -->
-     <a href="index3.html" class="brand-link bg-info">
-         <img src="{{ asset('admin/images/AdminLTELogo.png') }}" alt="AdminLTE Logo"
-             class="brand-image img-circle elevation-3" style="opacity: .8">
-         <span class="brand-text font-weight-light">AdminLTE 3</span>
+     {{-- <a href="index3.html" class="brand-link" style="text-align: center; ">
+         <img src="{{ asset('admin/images/gigastore_logo.png') }}" alt="logo"
+             style="width: 50%; shadow: 0 4px 12px rgba(211, 7, 7, 0.3); "> --}}
+     <a href="#" class="brand-link" style="text-align: start; background-color: #17a2b8; margin: 0; ">
+         <img src="{{ asset('admin/images/icon.png') }}" alt="Logo" style="width: 30%">
+         <span class="brand-text font-weight-bold" style="color:blue;">Giga<b style="color:lime;">S</b>tore</span>
      </a>
 
      <!-- Sidebar -->
