@@ -175,7 +175,17 @@
                          </li>
                      </ul> --}}
                  </li>
-
+                 @php
+                     $active = Session::get('page') == 'categories' ? 'active' : '';
+                 @endphp
+                 <li class="nav-item">
+                     <a href="categories" class="nav-link {{ $active }}">
+                         <i class="nav-icon fas fa-list"></i>
+                         <p>
+                             Categories
+                         </p>
+                     </a>
+                 </li>
 
              </ul>
          </nav>
