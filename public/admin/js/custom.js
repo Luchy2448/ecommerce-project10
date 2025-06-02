@@ -121,3 +121,33 @@ $(document).on("click", ".updateSubadminStatus", function () {
         },
     });
 });
+// Update Category Status
+$(document).on("click", ".updateCategoryStatus", function () {
+    var status = $(this).attr("status"); // obtain the current status
+    var category_id = $(this).attr("category_id"); // obtain the page id
+
+    $.ajax({
+        headers: {
+            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+        },
+        type: "post",
+        url: "/admin/update-category-status",
+        data: { status: status, category_id: category_id },
+        success: function (resp) {
+            if (resp.status == 0) {
+                $("#category-" + resp.category_id).attr("status", "Inactive");
+                $("#category-" + resp.category_id).html(
+                    "<i class='fas fa-toggle-off' style='color:grey' status='Inactive'></i>"
+                );
+            } else if (resp.status == 1) {
+                $("#category-" + resp.category_id).attr("status", "Active");
+                $("#category-" + resp.category_id).html(
+                    "<i class='fas fa-toggle-on' style='color:#135964' status='Active'></i>"
+                );
+            }
+        },
+        error: function () {
+            alert("Error");
+        },
+    });
+});

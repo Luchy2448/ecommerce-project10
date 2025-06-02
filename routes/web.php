@@ -47,7 +47,10 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
 
     // Categories
     Route::get('categories', [CategoryController::class, 'categories'])->name('admin.categories.index');
-
+    Route::post('update-category-status', [CategoryController::class, 'updateCategoryStatus'])->name('admin.categories.update');
+    Route::match(['get', 'post'],'add-edit-category/{id?}' , [CategoryController::class, 'addEditCategory'])->name('admin.categories.edit');
+    Route::get('delete-category/{id}', [CategoryController::class, 'destroy'])->name('admin.categories.destroy');
+     Route::get('delete-category-image/{id}', [CategoryController::class, 'destroyImage'])->name('admin.categories.destroy-image');
 
     // Admins Roles
     Route::match(['get', 'post'], 'update-role/{id}', [AdminController::class, 'updateRole'])->name('admin.update.role');

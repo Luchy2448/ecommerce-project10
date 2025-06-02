@@ -176,18 +176,39 @@
                      </ul> --}}
                  </li>
                  @php
-                     $active = Session::get('page') == 'categories' ? 'active' : '';
+                     $active =
+                         Session::get('page') == 'categories' || Session::get('page') == 'products' ? 'active' : '';
                  @endphp
-                 <li class="nav-item">
-                     <a href="categories" class="nav-link {{ $active }}">
+                 <li class="nav-item menu-open">
+                     <a href="#" class="nav-link {{ $active }}">
                          <i class="nav-icon fas fa-list"></i>
                          <p>
-                             Categories
+                             Catalogues
+                             <i class="right fas fa-angle-left"></i>
                          </p>
                      </a>
-                 </li>
+                     <ul class="nav nav-treeview">
+                         @php
+                             $active = Session::get('page') == 'categories' ? 'active' : '';
+                         @endphp
+                         <li class="nav-item">
+                             <a href="{{ route('admin.categories.index') }}" class="nav-link {{ $active }}">
+                                 <i class="far fa-circle nav-icon"></i>
+                                 <p>Categories</p>
+                             </a>
+                         </li>
+                         @php
+                             $active = Session::get('page') == 'products' ? 'active' : '';
+                         @endphp
+                         <li class="nav-item">
+                             <a href="#" class="nav-link  {{ $active }}">
+                                 <i class="far fa-circle nav-icon"></i>
+                                 <p>Products</p>
+                             </a>
+                         </li>
 
-             </ul>
+
+                     </ul>
          </nav>
          <!-- /.sidebar-menu -->
      </div>
