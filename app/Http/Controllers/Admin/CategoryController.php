@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Category;
+use App\Models\AdminsRole;
 use Illuminate\Http\Request;
+use App\Http\Middleware\Admin;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class CategoryController extends Controller
@@ -18,7 +21,22 @@ class CategoryController extends Controller
         // Fetch all categories with their parent category relationship
         $categories = Category::with('parentCategory')->get();
 
-        return view('admin.categories.index', compact('categories'));
+              // set admin/subadmins permissions for categories
+        $categoriesModuleCount = AdminsRole::where(['subadmin_id'=>Auth::guard('admin')->user()->id,'module'=>'categories'])->count();
+        $categoriesModule = [];
+        if(Auth::guard('admin')->user()->type=='admin'){
+            $categoriesModule['view_access'] = 1;
+            $categoriesModule['add_access'] = 1;
+            $categoriesModule['edit_access'] = 1;
+            $categoriesModule['full_access'] = 1;
+        }else if($categoriesModuleCount==0){
+            $message = "This feature is restricted for you!";
+            return redirect()->route('admin.dashboard')->with('sweet_error_message', $message);
+        }else{
+            $categoriesModule = AdminsRole::where(['subadmin_id'=>Auth::guard('admin')->user()->id,'module'=>'categories'])->first();
+        }
+
+        return view('admin.categories.index', compact('categories', 'categoriesModule'));
     }
     public function updateCategoryStatus(Request $request)
 {
@@ -77,14 +95,7 @@ class CategoryController extends Controller
         // Upload image
         if ($request->hasFile('image')) {
             $image_tmp = $request->file('image');
-            // Si está editando, elimina la imagen anterior
-            // if ($id != "" && !empty($category->image)) {
-            //     $currentImagePath = public_path('front/images/categories/' . $category->image);
-            //     if (file_exists($currentImagePath)) {
-            //         unlink($currentImagePath);
-            //     }
-            // }
-
+           
             if ($image_tmp->isValid()) {
                 // Genera nuevo nombre de imagen
                 $imageName = rand(111, 99999) . '.' . $image_tmp->getClientOriginalExtension();

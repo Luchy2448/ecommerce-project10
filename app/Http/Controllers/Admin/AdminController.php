@@ -71,6 +71,7 @@ class AdminController extends Controller
     public function updatePassword(Request $request)
     {   
         Session::put('page', 'update_password');
+        
 
         if ($request->isMethod('post')) {
             $data = $request->all();
@@ -132,6 +133,7 @@ public function updateDetails(Request $request)
 {
     Session::put('page', 'update-details');
 
+    
 
     if ($request->isMethod('post')) {
         $data = $request->all();
@@ -199,6 +201,7 @@ public function subadmins()
 
 public function addEditSubadmin(Request $request, $id = null)
 {
+    
     // create and edit subadmin page
 
     if ($id == "") {
@@ -302,59 +305,43 @@ public function deleteSubadmin($id)
 
 }
 
-public function updateRole(Request $request, $id)
-{
-    if ($request->isMethod('post')) {
-        $data = $request->all();
-        // dd ($data);
+ public function updateRole(Request $request, $id){
 
-        // Delete all earlier roles for subadmin
-        AdminsRole::where('subadmin_id', $id)->delete();
+        if ($request->isMethod('post')) {
+            $data = $request->all();
+            if (empty($data) || !is_array($data)) {
+            return redirect()->route('admin.subadmins.index');
+        }
+            // Delete all earlier roles for subadmin
+            AdminsRole::where('subadmin_id', $id)->delete();
 
-         // Add new roles for subadmin dinamically
-        foreach ($data as $key => $value) {
-            if(isset($value['view'])){
-                $view = $value['view'];
-            }else{
-                $view = 0;
+            // Add new roles for subadmin dinamically
+            foreach ($data as $key => $value) {
+                // Solo procesa si es un módulo válido (evita campos como _token)
+                if (in_array($key, ['cms_pages', 'categories', 'otros_modulos'])) {
+                    $view = isset($value['view']) ? $value['view'] : 0;
+                    $add = isset($value['add']) ? $value['add'] : 0;
+                    $edit = isset($value['edit']) ? $value['edit'] : 0;
+                    $full = isset($value['full']) ? $value['full'] : 0;
+
+                    $role = new AdminsRole;
+                    $role->subadmin_id = $id;
+                    $role->module = $key;
+                    $role->view_access = $view;
+                    $role->add_access = $add;
+                    $role->edit_access = $edit;
+                    $role->full_access = $full;
+                    $role->save();
+                }
             }
-            if(isset($value['add'])){
-                $add = $value['add'];
-            }else{
-                $add = 0;
-            }
-            if(isset($value['edit'])){
-                $edit = $value['edit'];
-            }else{
-                $edit = 0;
-            }
-            if(isset($value['full'])){
-                $full = $value['full'];
-            }else{
-                $full = 0;
-            }
+            return redirect()->route('admin.subadmins.index')->with('success_message', 'Subadmin roles has been updated successfully!');
         }
 
-        $role = new AdminsRole;
-        $role->subadmin_id = $id;
-        $role->module = $key;
-        $role->view_access = $view;
-        $role->add_access = $add;
-        $role->edit_access = $edit;
-        $role->full_access = $full;
-        $role->save();
+        // Obtener todos los roles del subadmin y pasarlos a la vista como array asociativo
+        $roles = AdminsRole::where('subadmin_id', $id)->get()->keyBy('module');
+        $subadminDetails = Admin::where('id', $id)->first();
+        $title = "Update ". $subadminDetails['name'] ." Subadmin Roles/Permissions";
 
-        return redirect()->route('admin.subadmins.index')->with('success_message', 'Subadmin roles has been updated successfully!');
+        return view('admin.subadmins.update_roles', compact('title', 'id', 'roles'));
     }
-
-
-    // Obtain the current subadmin permissions for the cms_pages module 
-     $role = AdminsRole::where('subadmin_id', $id)->where('module', 'cms_pages')->first();
-     
-     $subadminDetails = Admin::where('id', $id)->first();
-
-     $title = "Update ". $subadminDetails['name'] ." Subadmin Roles/Permissions";
-
-    return view('admin.subadmins.update_roles', compact('title', 'id', 'role'));
-}
 }

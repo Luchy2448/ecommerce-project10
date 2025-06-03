@@ -8,8 +8,11 @@
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">Categories</h3>
-                            <a href="add-edit-category" class="btn btn-primary float-right"
-                                style="background-color: #17a2b8">Add Category</a>
+
+                            @if ($categoriesModule['add_access'] == 1 || $categoriesModule['full_access'] == 1)
+                                <a href="add-edit-category" class="btn btn-primary float-right"
+                                    style="background-color: #17a2b8">Add Category</a>
+                            @endif
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
@@ -22,9 +25,11 @@
                                         <th>Parent Category</th>
                                         <th>URL</th>
                                         <th>Created on</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
-
+                                        @if ($categoriesModule['edit_access'] == 1 || $categoriesModule['full_access'] == 1)
+                                            <th class="text-center">Status</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        @endif
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -39,37 +44,38 @@
                                                     N/A
                                                 @endif
                                             </td>
-                                            {{-- <td>{{ $category->description }}</td> --}}
+
                                             <td style="width: 30%">{{ $category->url }}</td>
                                             <td>{{ date('d-m-Y', strtotime($category->created_at)) }}</td>
 
 
-                                            {{-- @if ($pagesModule['edit_access'] == 1 || $pagesModule['full_access'] == 1) --}}
-                                            <td class="text-center">
-                                                @if ($category->status == 1)
-                                                    <a href="javascript:void(0);" class="updateCategoryStatus"
-                                                        id="category-{{ $category->id }}" category_id="{{ $category->id }}"
-                                                        status="Active" style="color: #135964">
-                                                        <i class="fas fa-toggle-on"></i>
-                                                    </a>
-                                                @else
-                                                    <a href="javascript:void(0);" class="updateCategoryStatus"
-                                                        id="category-{{ $category->id }}" category_id="{{ $category->id }}"
-                                                        status="Inactive">
-                                                        <i class="fas fa-toggle-off" style="color: grey;"></i>
-                                                    </a>
-                                                @endif
-                                            </td>
-                                            {{-- @endif --}}
+                                            @if ($categoriesModule['edit_access'] == 1 || $categoriesModule['full_access'] == 1)
+                                                <td class="text-center">
+                                                    @if ($category->status == 1)
+                                                        <a href="javascript:void(0);" class="updateCategoryStatus"
+                                                            id="category-{{ $category->id }}"
+                                                            category_id="{{ $category->id }}" status="Active"
+                                                            style="color: #135964">
+                                                            <i class="fas fa-toggle-on"></i>
+                                                        </a>
+                                                    @else
+                                                        <a href="javascript:void(0);" class="updateCategoryStatus"
+                                                            id="category-{{ $category->id }}"
+                                                            category_id="{{ $category->id }}" status="Inactive">
+                                                            <i class="fas fa-toggle-off" style="color: grey;"></i>
+                                                        </a>
+                                                    @endif
+                                                </td>
+                                            @endif
 
 
-                                            {{-- @if ($pagesModule['edit_access'] == 1 || $pagesModule['full_access'] == 1) --}}
-                                            <td class="text-center">
-                                                <a href="{{ url('admin/add-edit-category/' . $category->id) }}">
-                                                    <i class="fas fa-edit" style="color: #135964"></i>
-                                                </a>
-                                                {{-- @endif --}}
-                                                {{-- @if ($pagesModule['full_access'] == 1) --}}
+                                            @if ($categoriesModule['edit_access'] == 1 || $categoriesModule['full_access'] == 1)
+                                                <td class="text-center">
+                                                    <a href="{{ url('admin/add-edit-category/' . $category->id) }}">
+                                                        <i class="fas fa-edit" style="color: #135964"></i>
+                                                    </a>
+                                            @endif
+                                            @if ($categoriesModule['full_access'] == 1)
                                                 <form action="{{ url('admin/delete-category/' . $category->id) }}"
                                                     method="POST" style="display:inline;">
                                                     @csrf
@@ -81,8 +87,8 @@
                                                         <i class="fas fa-trash" style="color: #135964"></i>
                                                     </a>
                                                 </form>
-                                            </td>
-                                            {{-- @endif --}}
+                                                </td>
+                                            @endif
 
                                         </tr>
                                     @endforeach
@@ -106,7 +112,7 @@
     <script src="{{ asset('admin/plugins/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('admin/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('admin/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
-    <!-- Page specific script -->
+    <!-- Categorie specific script -->
     <script>
         $(function() {
             $("#category").DataTable();

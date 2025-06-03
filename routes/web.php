@@ -26,33 +26,33 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
    
    Route::group(['middleware' => ['admin']], function () {
     Route::get('dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-    Route::match(['get', 'post'], 'update_password', [AdminController::class, 'updatePassword'])->name('admin.update.password');
-    Route::match(['get', 'post'], 'update-details', [AdminController::class, 'updateDetails'])->name('admin.update.details');
+    Route::match(['get', 'post'], 'update_password', [AdminController::class, 'updatePassword'])->name('admin.update.password')->middleware('admin');
+    Route::match(['get', 'post'], 'update-details', [AdminController::class, 'updateDetails'])->name('admin.update.details')->middleware('admin');
     Route::post('check-current-password', [AdminController::class, 'checkCurrentPassword'])->name('admin.check.current.password');
     Route::get('logout', [AdminController::class, 'logout'])->name('admin.logout');
 
 
     // Display CMS Pages (CRUD)
     Route::get('cms_pages', [CmsPageController::class, 'index'])->name('admin.cms_pages.index');
-    Route::post('update-cms-page-status', [CmsPageController::class, 'update'])->name('admin.cms_pages.update');
-    Route::match(['get', 'post'],'add-edit-cms-page/{id?}' , [CmsPageController::class, 'edit'])->name('admin.cms_pages.edit');
+    Route::post('update-cms-page-status', [CmsPageController::class, 'update'])->name('admin.cms_pages.update')->middleware('admin');
+    Route::match(['get', 'post'],'add-edit-cms-page/{id?}' , [CmsPageController::class, 'edit'])->name('admin.cms_pages.edit')->middleware('admin');
     Route::get('delete-cms-page/{id}', [CmsPageController::class, 'destroy'])->name('admin.cms_pages.destroy');
 
 
     // subadmin
     Route::get('subadmins', [AdminController::class, 'subadmins'])->name('admin.subadmins.index');
-    Route::post('update-subadmin-status', [AdminController::class, 'updateSubadminStatus'])->name('admin.subadmins.update');
-    Route::match(['get', 'post'],'add-edit-subadmin/{id?}', [AdminController::class, 'addEditSubadmin'])->name('admin.add.edit.subadmin');
+    Route::post('update-subadmin-status', [AdminController::class, 'updateSubadminStatus'])->name('admin.subadmins.update')->middleware('admin');
+    Route::match(['get', 'post'],'add-edit-subadmin/{id?}', [AdminController::class, 'addEditSubadmin'])->name('admin.add.edit.subadmin')->middleware('admin');
     Route::get('delete-subadmin/{id}', [AdminController::class, 'deleteSubadmin'])->name('admin.delete.subadmin');
 
     // Categories
     Route::get('categories', [CategoryController::class, 'categories'])->name('admin.categories.index');
-    Route::post('update-category-status', [CategoryController::class, 'updateCategoryStatus'])->name('admin.categories.update');
-    Route::match(['get', 'post'],'add-edit-category/{id?}' , [CategoryController::class, 'addEditCategory'])->name('admin.categories.edit');
+    Route::post('update-category-status', [CategoryController::class, 'updateCategoryStatus'])->name('admin.categories.update')->middleware('admin');
+    Route::match(['get', 'post'],'add-edit-category/{id?}' , [CategoryController::class, 'addEditCategory'])->name('admin.categories.edit')->middleware('admin');
     Route::get('delete-category/{id}', [CategoryController::class, 'destroy'])->name('admin.categories.destroy');
      Route::get('delete-category-image/{id}', [CategoryController::class, 'destroyImage'])->name('admin.categories.destroy-image');
 
     // Admins Roles
-    Route::match(['get', 'post'], 'update-role/{id}', [AdminController::class, 'updateRole'])->name('admin.update.role');
+    Route::match(['get', 'post'], 'update-role/{id}', [AdminController::class, 'updateRole'])->name('admin.update.role')->middleware('admin');
 }); 
 });

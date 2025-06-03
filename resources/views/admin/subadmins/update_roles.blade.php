@@ -53,26 +53,50 @@
                         <input type="hidden" name="subadmin_id" value="{{ $id }}">
                         <div class="card-body">
 
-                            <div class="form-group">
-                                <label for="name">Cms Pages: </label>
-                            </div>
+
+                            <label for="name">Cms Pages: </label>
+
+
                             <div class="form-check">
                                 <input type="checkbox" class="form-check-input" name="cms_pages[view]" value="1"
-                                    {{ isset($role) && $role->view_access == 1 ? 'checked' : '' }}>
+                                    {{ isset($roles['cms_pages']) && $roles['cms_pages']->view_access == 1 ? 'checked' : '' }}>
                                 <label class="form-check-label mb-3">View Access</label>
 
-                                <br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
                                 <input type="checkbox" class="form-check-input" name="cms_pages[add]" value="1"
-                                    {{ isset($role) && $role->add_access == 1 ? 'checked' : '' }}>
+                                    {{ isset($roles['cms_pages']) && $roles['cms_pages']->add_access == 1 ? 'checked' : '' }}>
                                 <label class="form-check-label mb-3">View/ Add Access</label>
-                                <br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <input type="checkbox" class="form-check-input" name="cms_pages[edit]" value="1"
-                                    {{ isset($role) && $role->edit_access == 1 ? 'checked' : '' }}>
+                                    {{ isset($roles['cms_pages']) && $roles['cms_pages']->edit_access == 1 ? 'checked' : '' }}>
                                 <label class="form-check-label mb-3">View/ Edit Access</label>
-                                <br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <input type="checkbox" class="form-check-input" name="cms_pages[full]" value="1"
-                                    {{ isset($role) && $role->full_access == 1 ? 'checked' : '' }}>
+                                    {{ isset($roles['cms_pages']) && $roles['cms_pages']->full_access == 1 ? 'checked' : '' }}>
+                                <label class="form-check-label mb-3">Full Access</label>
+                            </div>
+
+
+                            <label for="name">Categories: </label>
+
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" name="categories[view]" value="1"
+                                    {{ isset($roles['categories']) && $roles['categories']->view_access == 1 ? 'checked' : '' }}>
+                                <label class="form-check-label mb-3">View Access</label>
+
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                                <input type="checkbox" class="form-check-input" name="categories[add]" value="1"
+                                    {{ isset($roles['categories']) && $roles['categories']->add_access == 1 ? 'checked' : '' }}>
+                                <label class="form-check-label mb-3">View/ Add Access</label>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <input type="checkbox" class="form-check-input" name="categories[edit]" value="1"
+                                    {{ isset($roles['categories']) && $roles['categories']->edit_access == 1 ? 'checked' : '' }}>
+                                <label class="form-check-label mb-3">View/ Edit Access</label>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <input type="checkbox" class="form-check-input" name="categories[full]" value="1"
+                                    {{ isset($roles['categories']) && $roles['categories']->full_access == 1 ? 'checked' : '' }}>
                                 <label class="form-check-label mb-3">Full Access</label>
                             </div>
 
