@@ -57,16 +57,6 @@ $(document).on("click", ".updateCmsPageStatus", function () {
     });
 });
 
-// Confirm the delete action of the CMS page
-// $(document).on("click", ".confirmDelete", function () {
-//     var name = $(this).attr("name");
-//     if (confirm("Are you sure you want to delete this " + name + "?")) {
-//         return true;
-//     } else {
-//         return false;
-//     }
-// });
-
 // Confirm the delete action with SweetAlert
 $(document).on("click", ".confirmDelete", function () {
     var record = $(this).attr("record");
@@ -81,11 +71,6 @@ $(document).on("click", ".confirmDelete", function () {
         confirmButtonText: "Yes, delete it!",
     }).then((result) => {
         if (result.isConfirmed) {
-            // Swal.fire({
-            //     title: "Deleted!",
-            //     text: "Your file has been deleted.",
-            //     icon: "success",
-            // });
             window.location.href = "/admin/delete-" + record + "/" + recordid;
         }
     });
@@ -142,6 +127,37 @@ $(document).on("click", ".updateCategoryStatus", function () {
             } else if (resp.status == 1) {
                 $("#category-" + resp.category_id).attr("status", "Active");
                 $("#category-" + resp.category_id).html(
+                    "<i class='fas fa-toggle-on' style='color:#135964' status='Active'></i>"
+                );
+            }
+        },
+        error: function () {
+            alert("Error");
+        },
+    });
+});
+
+// Update Product Status
+$(document).on("click", ".updateProductStatus", function () {
+    var status = $(this).attr("status"); // obtain the current status
+    var product_id = $(this).attr("product_id"); // obtain the page id
+
+    $.ajax({
+        headers: {
+            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+        },
+        type: "post",
+        url: "/admin/update-product-status",
+        data: { status: status, product_id: product_id },
+        success: function (resp) {
+            if (resp.status == 0) {
+                $("#product-" + resp.product_id).attr("status", "Inactive");
+                $("#product-" + resp.product_id).html(
+                    "<i class='fas fa-toggle-off' style='color:grey' status='Inactive'></i>"
+                );
+            } else if (resp.status == 1) {
+                $("#product-" + resp.product_id).attr("status", "Active");
+                $("#product-" + resp.product_id).html(
                     "<i class='fas fa-toggle-on' style='color:#135964' status='Active'></i>"
                 );
             }

@@ -25,7 +25,7 @@
                                         <th>Created on</th>
                                         @if ($pagesModule['edit_access'] == 1 || $pagesModule['full_access'] == 1)
                                             <th>Status</th>
-                                            <th>Action</th>
+                                            <th>Actions</th>
                                         @endif
                                     </tr>
                                 </thead>

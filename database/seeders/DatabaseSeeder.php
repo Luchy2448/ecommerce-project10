@@ -22,9 +22,10 @@ class DatabaseSeeder extends Seeder
         //  \App\Models\CmsPage::factory(7)->create();
 
 
-        // $this->call(AdminsTableSeeder::class);
-        // $this->call(CmsPageTableSeeder::class);
+        $this->call(AdminsTableSeeder::class);
+        $this->call(CmsPageTableSeeder::class);
         $this->call(CategoryTableSeeder::class);
+        $this->call(ProductTableSeeder::class);
 
     }
 }

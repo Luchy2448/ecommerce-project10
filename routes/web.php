@@ -4,6 +4,7 @@ use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CmsPageController;
+use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
 
 /*
@@ -52,6 +53,12 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
     Route::get('delete-category/{id}', [CategoryController::class, 'destroy'])->name('admin.categories.destroy');
      Route::get('delete-category-image/{id}', [CategoryController::class, 'destroyImage'])->name('admin.categories.destroy-image');
 
+      // Products
+    Route::get('products', [ProductController::class, 'index'])->name('admin.products.index');
+    Route::post('update-product-status', [ProductController::class, 'updateProductStatus'])->name('admin.products.update')->middleware('admin');
+    Route::match(['get', 'post'],'add-edit-product/{id?}' , [ProductController::class, 'addEditProduct'])->name('admin.products.edit')->middleware('admin');
+    Route::get('delete-product/{id}', [ProductController::class, 'destroy'])->name('admin.products.destroy');
+     Route::get('delete-product-image/{id}', [ProductController::class, 'destroyImage'])->name('admin.products.destroy-image');
     // Admins Roles
     Route::match(['get', 'post'], 'update-role/{id}', [AdminController::class, 'updateRole'])->name('admin.update.role')->middleware('admin');
 }); 

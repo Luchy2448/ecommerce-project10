@@ -24,7 +24,7 @@
                                         <th>Type</th>
                                         <th>Created on</th>
                                         <th>Status</th>
-                                        <th>Action</th>
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>

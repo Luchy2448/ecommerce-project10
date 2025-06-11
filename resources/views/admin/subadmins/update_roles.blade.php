@@ -99,11 +99,33 @@
                                     {{ isset($roles['categories']) && $roles['categories']->full_access == 1 ? 'checked' : '' }}>
                                 <label class="form-check-label mb-3">Full Access</label>
                             </div>
+                            <label for="name">Products: </label>
+
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" name="products[view]" value="1"
+                                    {{ isset($roles['products']) && $roles['products']->view_access == 1 ? 'checked' : '' }}>
+                                <label class="form-check-label mb-3">View Access</label>
+
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                                <input type="checkbox" class="form-check-input" name="products[add]" value="1"
+                                    {{ isset($roles['products']) && $roles['products']->add_access == 1 ? 'checked' : '' }}>
+                                <label class="form-check-label mb-3">View/ Add Access</label>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <input type="checkbox" class="form-check-input" name="products[edit]" value="1"
+                                    {{ isset($roles['products']) && $roles['products']->edit_access == 1 ? 'checked' : '' }}>
+                                <label class="form-check-label mb-3">View/ Edit Access</label>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <input type="checkbox" class="form-check-input" name="products[full]" value="1"
+                                    {{ isset($roles['products']) && $roles['products']->full_access == 1 ? 'checked' : '' }}>
+                                <label class="form-check-label mb-3">Full Access</label>
+                            </div>
 
                         </div>
                         <!-- /.card-body -->
                         <div class="card-footer">
-                            <button type="submit" class="btn btn-primary" style="background-color: #135964">Save</button>
+                            <button type="submit" class="btn btn-primary"
+                                style="background-color: #135964">Save</button>
                         </div>
                     </form>
                 </div>

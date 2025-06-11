@@ -27,8 +27,8 @@
                                         <th>Created on</th>
                                         @if ($categoriesModule['edit_access'] == 1 || $categoriesModule['full_access'] == 1)
                                             <th class="text-center">Status</th>
-                                            <th>Status</th>
-                                            <th>Action</th>
+
+                                            <th>Actions</th>
                                         @endif
                                     </tr>
                                 </thead>

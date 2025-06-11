@@ -318,7 +318,7 @@ public function deleteSubadmin($id)
             // Add new roles for subadmin dinamically
             foreach ($data as $key => $value) {
                 // Solo procesa si es un módulo válido (evita campos como _token)
-                if (in_array($key, ['cms_pages', 'categories', 'otros_modulos'])) {
+                if (in_array($key, ['cms_pages', 'categories', 'products'])) {
                     $view = isset($value['view']) ? $value['view'] : 0;
                     $add = isset($value['add']) ? $value['add'] : 0;
                     $edit = isset($value['edit']) ? $value['edit'] : 0;
